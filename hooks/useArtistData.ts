@@ -1,0 +1,130 @@
+import { useSpotify } from "./useSpotify";
+import { useQuery } from "@tanstack/react-query";
+import { uniqBy } from "lodash";
+import { useCallback } from "react";
+import SpotifyWebApi from "spotify-web-api-node";
+import { SelectedArtistAtom } from "../atoms/selectedArtistsAtom";
+import GetFollowedArtists from "../components/center/GetFollowedArtists";
+
+type Artists = {
+  id: string;
+  name: string;
+  spotifyArtistURL: string;
+};
+
+type ArtistMusic = {
+  albumId: string;
+  albumType: "album" | "single" | "appears_on" | "compilation";
+  spotifyURL: string;
+  image: { height: number; width: number; url: string };
+  name: string;
+  release_date: string;
+  total_tracks: number;
+  uri: string;
+  artists: Artists[];
+};
+type Artist = {
+  artistId: string;
+  artistName: string;
+  artistImage: string;
+  artistMusic: ArtistMusic[];
+};
+function getArtists(artistArr: SpotifyApi.ArtistObjectSimplified[]) {
+  return artistArr.map((artist) => {
+    return {
+      id: artist.id,
+      name: artist.name,
+      spotifyArtistURL: artist.external_urls.spotify,
+    };
+  });
+}
+
+const getAlbumsQuery =
+  (spotifyApi: SpotifyWebApi) =>
+  async (selectedArtists: SelectedArtistAtom[]) => {
+    //-- Make list unique by artist ID
+    // console.log(
+    //   "Unique artists id test",
+    //   selectedArtists.reduce((final, artist) => {
+    //     return final.push(artist.id);
+    //   }, [])
+    // );
+    // const uniqArtistList = Array.from(new Set(selectedArtists));
+    console.log("in getAlbumsQuery");
+    let finalAlbumsList = [];
+    let counter = 1;
+    //-- Get full artist record for each artist in unique list
+    for (const artist of selectedArtists) {
+      const artistId = artist.id;
+      const albumData = await spotifyApi.getArtistAlbums(artistId, {
+        // other groups "single,appears_on,compilation
+        //
+        include_groups: "album",
+      });
+      const singleData = await spotifyApi.getArtistAlbums(artistId, {
+        // other groups "single,appears_on,compilation
+        //
+        include_groups: "single",
+      });
+      const albumItems = albumData?.body?.items;
+      let artistMusic = [];
+      // compile the album data into the artisMusic array
+      for (const album of albumItems) {
+        artistMusic.push({
+          albumId: album.id,
+          albumType: "album", //album.type,
+          spotifyAlbumURL: album.external_urls.spotify,
+          image: album.images[0],
+          name: album.name,
+          release_date: album.release_date,
+          total_tracks: album.total_tracks,
+          uri: album.uri,
+          artists: getArtists(album.artists),
+        });
+      }
+      // compile the single data into the artisMusic array
+      const singleItems = singleData?.body?.items;
+      for (const single of singleItems) {
+        artistMusic.push({
+          albumId: single.id,
+          albumType: "single", //single.type,
+          spotifyAlbumURL: single.external_urls.spotify,
+          image: single.images[0],
+          name: single.name,
+          release_date: single.release_date,
+          total_tracks: single.total_tracks,
+          uri: single.uri,
+          artists: getArtists(single.artists),
+        });
+      }
+
+      const queryArtist = {
+        artistId: artist.id,
+        artistName: artist.name,
+        artistImage: artist.imageURL,
+        artistMusic,
+      };
+      //
+      console.log("DATA", queryArtist);
+      finalAlbumsList.push(queryArtist);
+      // stateUpdater(counter.toString());
+      counter++;
+    }
+
+    return finalAlbumsList;
+  };
+
+const useArtistData = (selectedArtists: SelectedArtistAtom[]) => {
+  const spotifyApi = useSpotify();
+  const getAlbums = useCallback(getAlbumsQuery(spotifyApi), []);
+  const { data, isLoading, isError, refetch } = useQuery(
+    ["artistAlbums", selectedArtists],
+    () => getAlbums(selectedArtists)
+  );
+
+  const artistAlbumsData = data;
+  console.log("ARTIST USE", artistAlbumsData);
+  return { artistAlbumsData, isLoading, isError, refetch };
+};
+
+export default useArtistData;
