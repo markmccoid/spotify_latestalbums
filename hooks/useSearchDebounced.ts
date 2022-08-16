@@ -112,11 +112,11 @@ export const useSearchDebounced = ({
   //- Main useEffect Driver
   //------------------------
   useEffect(() => {
-    console.log(
-      "search debounced useeffect",
-      searchQuery.trim().length === 0,
-      !searchQuery
-    );
+    // console.log(
+    //   "search debounced useeffect",
+    //   searchQuery.trim().length === 0,
+    //   !searchQuery
+    // );
     setIsLoading(true);
     if (!searchQuery || searchQuery.trim().length === 0) {
       //Clear search results as searchQuery is empty or just spaces

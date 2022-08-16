@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import Link from "next/link";
 import { useMemo } from "react";
 import {
   selectedPlaylistAtom,
@@ -19,7 +20,7 @@ const PlaylistSidebarItem = ({
   const playlistObj: SelectedPlaylistType = {
     id: playlist.id,
     name: playlist.name,
-    imageURL: playlist.images[0].url,
+    imageURL: playlist?.images[0]?.url,
   };
   return (
     <li
@@ -48,6 +49,11 @@ const PlaylistSidebarItem = ({
           {playlist.name}
         </a>
       </div>
+      {/* <Link href={`/playlists?playlistId=${playlistObj.id}`}>
+        <a className="block overflow-hidden overflow-ellipsis whitespace-nowrap ">
+          {playlist.name}
+        </a>
+      </Link> */}
     </li>
   );
 };

@@ -13,12 +13,12 @@ const Wrapper = ({ children }) => {
   }
 
   return (
-    <div className="mx-20 flex h-full flex-col space-x-0 sm:flex-col md:flex-row md:space-x-2">
+    <div className="mx-5 flex h-full flex-col space-x-0 sm:flex-col md:flex-row md:space-x-2">
       <Head>
         <title>Spotify New Releases</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex h-full flex-grow flex-col  border border-red-900">
+      <div className="flex h-full flex-grow flex-col">
         <NavBar />
         {/* <ResultsContainer /> */}
         {children}

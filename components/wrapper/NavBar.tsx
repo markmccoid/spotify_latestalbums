@@ -20,6 +20,17 @@ const NavBar = () => {
           Search Artists
         </a>
       </Link>
+      <Link href="/followed-artists">
+        <a
+          className={`${
+            route.pathname.includes("followed-artists")
+              ? "button-selected"
+              : "button"
+          } whitespace-nowrap`}
+        >
+          Followed
+        </a>
+      </Link>
       <Link href="/playlists">
         <a
           className={`${

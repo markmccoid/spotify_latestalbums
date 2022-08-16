@@ -16,6 +16,9 @@ export const setSelectedPlaylistAtom = atom(
     set(selectedPlaylistAtom, update);
   }
 );
+export const clearSelectedPlaylistAtom = atom(null, (get, set) => {
+  set(selectedPlaylistAtom, undefined);
+});
 
 // const writeOnlyAtom = atom(
 //   null, // it's a convention to pass `null` for the first argument

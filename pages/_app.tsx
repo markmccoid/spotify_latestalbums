@@ -12,7 +12,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: true, // if data is stale
       refetchOnMount: true,
       cacheTime: 1000 * 30, //30 seconds
-      refetchInterval: 1000 * 30, //30 seconds
+      // refetchInterval: 1000 * 30, //30 seconds
       staleTime: 1000 * 30,
     },
   },
@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <ReactQueryDevtools initialIsOpen={false} />
 
         <DebugAtoms />
         <Component {...pageProps} />

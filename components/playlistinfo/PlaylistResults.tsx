@@ -3,6 +3,9 @@ import { selectedPlaylistAtom } from "../../atoms/selectedPlaylistAtom";
 import { usePlaylistArtistData } from "../../hooks/usePlaylistTrackData";
 import ArtistResults from "../searchArtists/ArtistResults";
 
+type Props = {
+  playlistId: string | undefined;
+};
 const PlaylistResults = () => {
   const [selectedPlaylist] = useAtom(selectedPlaylistAtom);
 
@@ -13,7 +16,7 @@ const PlaylistResults = () => {
     trackDataLoading,
     trackDataError,
     progress,
-  } = usePlaylistArtistData(selectedPlaylist?.id);
+  } = usePlaylistArtistData(selectedPlaylist?.id); //selectedPlaylist?.id);
 
   return (
     <div className="flex flex-grow flex-col">

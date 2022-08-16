@@ -1,12 +1,17 @@
 import Head from "next/head";
 import Wrapper from "../../components/wrapper/Wrapper";
 import PlaylistView from "../../components/playlistinfo/PlaylistsSidebarView";
-import { useAtom } from "jotai";
-import { selectedPlaylistAtom } from "../../atoms/selectedPlaylistAtom";
 import PlaylistResults from "../../components/playlistinfo/PlaylistResults";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
+import { clearSelectedPlaylistAtom } from "../../atoms/selectedPlaylistAtom";
 
-const Playlists = () => {
-  // const [aselectedPlaylist] = useAtom(selectedPlaylistAtom);
+const PlaylistsViewer = () => {
+  const [, clearSelectedPlaylist] = useAtom(clearSelectedPlaylistAtom);
+  // on mount empty out the selected playlist atom
+  useEffect(() => {
+    clearSelectedPlaylist("");
+  }, []);
   return (
     <Wrapper>
       <Head>
@@ -22,4 +27,4 @@ const Playlists = () => {
   );
 };
 
-export default Playlists;
+export default PlaylistsViewer;

@@ -5,10 +5,23 @@ import SpotifyWebApi from "spotify-web-api-node";
 import { extractArtists } from "../utils/spotifyData";
 
 //-- Playlist track query function
+type PlaylistReturnType = {
+  tracks: SpotifyApi.PlaylistTrackObject[];
+  playlistInfo: {
+    name?: string;
+    image?: SpotifyApi.ImageObject;
+  };
+};
 const getPlaylistTracks =
   (spotifyApi: SpotifyWebApi) => async (playlistId: string | undefined) => {
     if (!playlistId) return [];
     const data = await spotifyApi.getPlaylist(playlistId);
+    // const tracks = data?.body?.tracks.items;
+    // const playlistInfo = {
+    //   name: data?.body?.name,
+    //   image: data?.body?.images[0],
+    // };
+
     // return extractArtists(data?.body?.tracks.items, spotifyApi);
     return data?.body?.tracks.items;
   };
@@ -41,6 +54,7 @@ export const usePlaylistArtistData = (playlistId: string | undefined) => {
   const spotifyApi = useSpotify();
   const queryPlaylistTracks = getPlaylistTracks(spotifyApi);
   const queryUniqArtists = getUniqArtists(spotifyApi, setProgress);
+
   //* Get tracks in the playlist
   const {
     data: trackData,
@@ -51,6 +65,7 @@ export const usePlaylistArtistData = (playlistId: string | undefined) => {
     () => queryPlaylistTracks(playlistId),
     { cacheTime: 10000 }
   );
+
   //* Get unique artists from playlist tracks
   const {
     data: artistData,
@@ -59,7 +74,9 @@ export const usePlaylistArtistData = (playlistId: string | undefined) => {
   } = useQuery(
     ["queryUniqArtists", trackData],
     () => queryUniqArtists(trackData),
-    { enabled: !!trackData }
+    {
+      enabled: !!trackData,
+    }
   );
 
   return {

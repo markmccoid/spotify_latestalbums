@@ -29,6 +29,7 @@ type Artist = {
   artistImage: string;
   artistMusic: ArtistMusic[];
 };
+
 function getArtists(artistArr: SpotifyApi.ArtistObjectSimplified[]) {
   return artistArr.map((artist) => {
     return {

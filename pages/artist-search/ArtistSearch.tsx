@@ -15,12 +15,14 @@ const ArtistSearch = () => {
   // console.log("artists", artists);
   return (
     <Wrapper>
-      <div className="mt-2 flex flex-grow flex-col  items-center space-y-2 overflow-hidden">
-        <Search search={search} setSearch={setSearch} />
-
-        <div className="  overflow-y-scroll scrollbar-hide">
-          <ArtistResults artists={artists} />
+      <div className="mt-2 flex flex-grow flex-col space-y-2 overflow-hidden">
+        <div className="flex justify-center">
+          <Search search={search} setSearch={setSearch} />
         </div>
+
+        {/* <div className="  overflow-y-scroll scrollbar-hide"> */}
+        <ArtistResults artists={artists} />
+        {/* </div> */}
       </div>
     </Wrapper>
   );
