@@ -19,7 +19,7 @@ const PlaylistsViewer = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex flex-row overflow-hidden">
+      <div className="relative flex flex-row overflow-y-hidden">
         <PlaylistView />
         <PlaylistResults />
       </div>

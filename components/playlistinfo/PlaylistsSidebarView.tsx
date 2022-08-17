@@ -50,10 +50,12 @@ const Playlists = () => {
 
   return (
     <div
-      className="w-[30%] overflow-hidden overflow-y-scroll
+      className="w-[30%]  overflow-y-scroll
     border-r border-gray-600 scrollbar-hide"
     >
-      <h1 className="bg-gray-600 text-center text-white">Playlists</h1>
+      <h1 className="bg-btn_bg py-2 text-center text-xl text-orange-500">
+        Playlists
+      </h1>
       <ul className="list-none text-xs text-gray-500 lg:text-sm">
         {pl?.map((pages) => {
           return pages?.body?.items.map((playlist) => {
@@ -63,14 +65,13 @@ const Playlists = () => {
           });
         })}
         {hasNextPage && (
-          <Tooltip message="This is a test">
-            <button
-              className="mb-2 w-full border border-white bg-slate-700 py-2 text-center text-2xl text-white"
-              onClick={() => fetchNextPage()}
-            >
-              Load More
-            </button>
-          </Tooltip>
+          <button
+            disabled={isFetching}
+            className="mb-2 w-full border border-white bg-slate-700 py-2 text-center text-2xl text-white"
+            onClick={() => fetchNextPage()}
+          >
+            {!isFetching ? "Load More" : "Loading..."}
+          </button>
         )}
       </ul>
     </div>

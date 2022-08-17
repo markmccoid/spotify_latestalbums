@@ -6,6 +6,7 @@ import {
   SelectedPlaylistType,
   setSelectedPlaylistAtom,
 } from "../../atoms/selectedPlaylistAtom";
+import { Tooltip } from "../Tooltip";
 
 const PlaylistSidebarItem = ({
   playlist,
@@ -25,7 +26,7 @@ const PlaylistSidebarItem = ({
   return (
     <li
       className={`cursor-pointer border-b border-gray-600 py-1
-     pl-3 pr-1 text-lg hover:bg-gray-300 hover:text-gray-900
+     pl-3 pr-1 text-lg text-btn_txt hover:bg-[#4d267f] hover:text-white
      `}
     >
       {/* <Link href={`/playlist/${playlist.id}`}>
@@ -44,7 +45,8 @@ const PlaylistSidebarItem = ({
       >
          <a className="block">{playlist.name}</a>
       </Link> */}
-      <div onClick={() => setPlaylist(playlistObj)}>
+
+      <div className=" flex " onClick={() => setPlaylist(playlistObj)}>
         <a className="block overflow-hidden overflow-ellipsis whitespace-nowrap ">
           {playlist.name}
         </a>

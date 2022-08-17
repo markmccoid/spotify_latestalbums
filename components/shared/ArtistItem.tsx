@@ -35,10 +35,25 @@ const ArtistItem = ({ artistObj }: Props) => {
   console.log("genres", artistObj.genres);
   return (
     <div
-      className={`mr-3 flex flex-row items-end justify-between rounded-2xl 
+      onClick={() =>
+        isSelected
+          ? removeArtist(artistObj.id)
+          : setArtists({
+              id: artistObj.id,
+              name: artistObj.name,
+              imageURL: artistObj.images[0],
+            })
+      }
+      className={`mr-3 flex cursor-pointer flex-row items-end justify-between rounded-2xl 
       py-3 px-2
-      ${isSelected && "bg-green-600 transition duration-700"}
-      ${!isSelected && "bg-slate-300 transition duration-700"}`}
+      ${
+        isSelected &&
+        "border-2 border-orange-500 bg-highlight_bg transition duration-700"
+      }
+      ${
+        !isSelected &&
+        "border-2 border-highlight_bg bg-mm_light transition duration-700"
+      }`}
     >
       <div
         className="group relative h-[100px] w-[100px] flex-shrink-0 cursor-pointer
@@ -50,10 +65,15 @@ const ArtistItem = ({ artistObj }: Props) => {
       </div>
 
       <div className="flex h-full w-full flex-col justify-between py-2">
-        <div className="mx-5 rounded-md px-2 text-2xl font-bold text-black">
+        <div
+          className={`mx-5 rounded-md px-2 text-2xl font-bold 
+        ${isSelected && "text-white transition duration-700"}
+        ${!isSelected && "text-black transition duration-700"}
+        `}
+        >
           {artistObj.name}
         </div>
-        <button
+        {/* <button
           className={`mx-5 w-max rounded-2xl border border-white bg-blue-600 p-1 px-5
           text-xl ${
             isSelected &&
@@ -74,7 +94,7 @@ const ArtistItem = ({ artistObj }: Props) => {
           }
         >
           {`${isSelected ? "Remove Artist" : "Add Artist"}`}
-        </button>
+        </button> */}
       </div>
     </div>
   );

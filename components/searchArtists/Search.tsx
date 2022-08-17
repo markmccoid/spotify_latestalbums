@@ -1,8 +1,8 @@
 const Search = ({ search, setSearch }) => {
   return (
     <div
-      className="flex w-[80%] max-w-[1150px] items-center justify-center
-    space-x-1 rounded-full border border-gray-600 bg-[#1a1a1a] px-2"
+      className="label flex w-[80%] max-w-[1150px] items-center
+    justify-center space-x-1 rounded-full  px-2 "
     >
       <div className="h-4 w-4 flex-shrink-0 animate-pulse rounded-full border-2" />
       <input
@@ -12,7 +12,7 @@ const Search = ({ search, setSearch }) => {
           // console.log("set Search", e.target.value);
           setSearch(e.target.value);
         }}
-        className="w-full rounded-full border-none bg-[#1a1a1a] text-white placeholder-[#fafafa7c]
+        className="label w-full rounded-full border-none text-white placeholder-[#fafafa7c]
                   focus:ring-0"
         placeholder="Search by Artist..."
       />
