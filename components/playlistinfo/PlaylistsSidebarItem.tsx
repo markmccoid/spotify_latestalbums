@@ -46,10 +46,17 @@ const PlaylistSidebarItem = ({
          <a className="block">{playlist.name}</a>
       </Link> */}
 
-      <div className=" flex " onClick={() => setPlaylist(playlistObj)}>
-        <a className="block overflow-hidden overflow-ellipsis whitespace-nowrap ">
-          {playlist.name}
-        </a>
+      <div
+        onClick={() => {
+          console.log("setting playlist", playlistObj.id);
+          setPlaylist(playlistObj);
+        }}
+      >
+        <Link href={`/playlists`}>
+          <a className="block overflow-hidden overflow-ellipsis whitespace-nowrap ">
+            {playlist.name}
+          </a>
+        </Link>
       </div>
       {/* <Link href={`/playlists?playlistId=${playlistObj.id}`}>
         <a className="block overflow-hidden overflow-ellipsis whitespace-nowrap ">

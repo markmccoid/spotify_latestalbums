@@ -18,7 +18,8 @@ const LatestAlbums = () => {
   // console.log("artists", selectedArtists);
   return (
     <Wrapper>
-      <div className="overflow-hidden overflow-y-scroll">
+      {isLoading && <div>Loading...</div>}
+      <div className="flex flex-grow overflow-hidden overflow-y-scroll">
         {artistAlbumsData?.map((data) => {
           return (
             <div>

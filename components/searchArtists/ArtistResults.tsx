@@ -7,11 +7,9 @@ type Props = {
 };
 const ArtistResults = ({ artists }: Props) => {
   return (
-    <div className="ml-2 flex flex-col space-y-5 overflow-hidden overflow-y-scroll py-5 scrollbar-hide">
-      {/* <div
-      className="flex flex-col items-start space-y-6
-                  overflow-hidden overflow-y-scroll p-4 py-4 scrollbar-hide"
-    > */}
+    <div className="ml-2 flex flex-row flex-wrap overflow-hidden overflow-y-scroll scrollbar-hide">
+      {/* <div className="ml-2 flex flex-row flex-wrap space-y-5 overflow-hidden overflow-y-scroll py-5 scrollbar-hide"> */}
+
       {artists.map((artistObj) => (
         <ArtistItem key={artistObj.id} artistObj={artistObj} />
       ))}

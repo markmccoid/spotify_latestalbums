@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useSpotify } from "./useSpotify";
 import { useQuery } from "@tanstack/react-query";
 import SpotifyWebApi from "spotify-web-api-node";
@@ -52,8 +52,16 @@ const getUniqArtists =
 export const usePlaylistArtistData = (playlistId: string | undefined) => {
   const [progress, setProgress] = useState("");
   const spotifyApi = useSpotify();
-  const queryPlaylistTracks = getPlaylistTracks(spotifyApi);
-  const queryUniqArtists = getUniqArtists(spotifyApi, setProgress);
+  // const queryPlaylistTracks = getPlaylistTracks(spotifyApi);
+  // const queryUniqArtists = getUniqArtists(spotifyApi, setProgress);
+  const queryPlaylistTracks = useCallback(
+    (playlistId) => getPlaylistTracks(spotifyApi)(playlistId),
+    []
+  );
+  const queryUniqArtists = useCallback(
+    (trackData) => getUniqArtists(spotifyApi, setProgress)(trackData),
+    []
+  );
 
   //* Get tracks in the playlist
   const {

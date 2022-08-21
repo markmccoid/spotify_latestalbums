@@ -17,10 +17,9 @@ const PlaylistResults = () => {
     trackDataError,
     progress,
   } = usePlaylistArtistData(selectedPlaylist?.id); //selectedPlaylist?.id);
-
   return (
-    <div className="flex flex-grow flex-col">
-      <div className="w-max rounded-xl border border-blue-600 bg-blue-600 p-3">
+    <div className="flex flex-col">
+      <div className="w-full rounded-xl border border-blue-600 bg-blue-600 p-3">
         <h1 className="text-3xl">
           Artists in Playlist{" "}
           <span className="text-slate-800">{selectedPlaylist?.name}</span>

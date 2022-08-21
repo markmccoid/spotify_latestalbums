@@ -12,17 +12,19 @@ type Artists = {
   spotifyArtistURL: string;
 };
 
-type ArtistMusic = {
-  albumId: string;
-  albumType: "album" | "single" | "appears_on" | "compilation";
-  spotifyURL: string;
-  image: { height: number; width: number; url: string };
-  name: string;
-  release_date: string;
-  total_tracks: number;
-  uri: string;
-  artists: Artists[];
-};
+type ArtistMusic =
+  | {
+      albumId: string;
+      albumType: "album" | "single" | "appears_on" | "compilation";
+      spotifyAlbumURL: string;
+      image: SpotifyApi.ImageObject;
+      name: string;
+      release_date: string;
+      total_tracks: number;
+      uri: string;
+      artists: Artists[];
+    }
+  | [];
 type Artist = {
   artistId: string;
   artistName: string;
@@ -44,14 +46,7 @@ const getAlbumsQuery =
   (spotifyApi: SpotifyWebApi) =>
   async (selectedArtists: SelectedArtistAtom[]) => {
     //-- Make list unique by artist ID
-    // console.log(
-    //   "Unique artists id test",
-    //   selectedArtists.reduce((final, artist) => {
-    //     return final.push(artist.id);
-    //   }, [])
-    // );
-    // const uniqArtistList = Array.from(new Set(selectedArtists));
-    console.log("in getAlbumsQuery");
+    // console.log("in getAlbumsQuery");
     let finalAlbumsList = [];
     let counter = 1;
     //-- Get full artist record for each artist in unique list
@@ -68,7 +63,7 @@ const getAlbumsQuery =
         include_groups: "single",
       });
       const albumItems = albumData?.body?.items;
-      let artistMusic = [];
+      let artistMusic: ArtistMusic[] = [];
       // compile the album data into the artisMusic array
       for (const album of albumItems) {
         artistMusic.push({
@@ -106,7 +101,7 @@ const getAlbumsQuery =
         artistMusic,
       };
       //
-      console.log("DATA", queryArtist);
+      // console.log("DATA", queryArtist);
       finalAlbumsList.push(queryArtist);
       // stateUpdater(counter.toString());
       counter++;
@@ -124,7 +119,7 @@ const useArtistData = (selectedArtists: SelectedArtistAtom[]) => {
   );
 
   const artistAlbumsData = data;
-  console.log("ARTIST USE", artistAlbumsData);
+  // console.log("ARTIST USE", artistAlbumsData);
   return { artistAlbumsData, isLoading, isError, refetch };
 };
 

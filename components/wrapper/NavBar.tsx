@@ -8,7 +8,8 @@ const NavBar = () => {
   const route = useRouter();
 
   return (
-    <div className="flex w-auto items-center justify-center space-x-5 border border-yellow-500 p-4 py-6 md:space-y-2 lg:space-y-0">
+    <div className="flex flex-col space-y-5 border border-orange-500 p-4 py-6">
+      {/* <div className="flex w-auto items-center justify-center space-x-5 border border-yellow-500 p-4 py-6 md:space-y-2 lg:space-y-0"> */}
       <Link href="/artist-search">
         <a
           className={`${
@@ -31,7 +32,7 @@ const NavBar = () => {
           Followed
         </a>
       </Link>
-      <Link href="/playlists">
+      {/* <Link href="/playlists">
         <a
           className={`${
             route.pathname.includes("playlists") ? "button-selected" : "button"
@@ -39,7 +40,7 @@ const NavBar = () => {
         >
           Search Playlist
         </a>
-      </Link>
+      </Link> */}
       <Link href="/latest-albums">
         <a
           className={`${

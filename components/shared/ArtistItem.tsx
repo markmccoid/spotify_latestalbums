@@ -32,7 +32,6 @@ const ArtistItem = ({ artistObj }: Props) => {
     }
   }, [selectedArtists]);
 
-  console.log("genres", artistObj.genres);
   return (
     <div
       onClick={() =>
@@ -44,7 +43,7 @@ const ArtistItem = ({ artistObj }: Props) => {
               imageURL: artistObj.images[0],
             })
       }
-      className={`mr-3 flex cursor-pointer flex-row items-end justify-between rounded-2xl 
+      className={`mr-3 flex w-[400px] cursor-pointer flex-row items-end justify-between rounded-2xl 
       py-3 px-2
       ${
         isSelected &&

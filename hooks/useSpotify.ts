@@ -5,11 +5,11 @@ import { signIn, useSession } from "next-auth/react";
 export const useSpotify = () => {
   const { data: session, status } = useSession();
   useEffect(() => {
-    console.log(
-      "in useSpotify useEffect",
-      session?.expires,
-      session?.user?.accessToken
-    );
+    // console.log(
+    //   "in useSpotify useEffect",
+    //   session?.expires,
+    //   session?.user?.accessToken
+    // );
     if (session) {
       if (session.error === "refreshTokenError") {
         signIn();

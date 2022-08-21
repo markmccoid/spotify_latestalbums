@@ -6,7 +6,8 @@ import {
   useInfiniteQuery,
 } from "@tanstack/react-query";
 import PlaylistSidebarItem from "./PlaylistsSidebarItem";
-import { Tooltip } from "../Tooltip";
+import { useEffect, useMemo, useState } from "react";
+import { sortBy } from "lodash";
 
 const LIMIT = 20;
 
@@ -15,6 +16,9 @@ const Playlists = () => {
   const fetchPL = ({ pageParam = 0 }) => {
     return spotifyApi.getUserPlaylists({ offset: pageParam, limit: LIMIT });
   };
+  const [sortedData, setSortedData] = useState<
+    SpotifyApi.PlaylistObjectSimplified[]
+  >([]);
   // const { isLoading, isError, data } = useQuery(["playlists"], fetchPL, {
   //   staleTime: 10000, // only eligible to refetch after 10 seconds
   // });
@@ -42,28 +46,39 @@ const Playlists = () => {
 
   // const pl = data?.body?.items;
   const pl = data?.pages;
-  // console.log("pl", data);
+
+  useEffect(() => {
+    console.log("is fetchin");
+    if (!isFetching) {
+      console.log("use effect isfetchin not", data?.pages.length);
+      const final = sortBy(data?.pages.map((page) => page.body.items).flat(), [
+        (el) => el.name.toLowerCase().trim(),
+      ]);
+      setSortedData(final);
+    }
+  }, [data]);
+
   if (isFetching && !data) {
+    console.log("in PlaylistSidebarView - loading", isFetching);
     // console.log("data loading stage", isLoading);
     return <div className="text-5xl">LOADING ... </div>;
   }
-
   return (
-    <div
-      className="w-[30%]  overflow-y-scroll
-    border-r border-gray-600 scrollbar-hide"
-    >
+    <div className="border-r border-gray-600 ">
       <h1 className="bg-btn_bg py-2 text-center text-xl text-orange-500">
         Playlists
       </h1>
       <ul className="list-none text-xs text-gray-500 lg:text-sm">
-        {pl?.map((pages) => {
+        {sortedData?.map((playlist) => {
+          return <PlaylistSidebarItem key={playlist.id} playlist={playlist} />;
+        })}
+        {/* {pl?.map((pages) => {
           return pages?.body?.items.map((playlist) => {
             return (
               <PlaylistSidebarItem key={playlist.id} playlist={playlist} />
             );
           });
-        })}
+        })} */}
         {hasNextPage && (
           <button
             disabled={isFetching}
