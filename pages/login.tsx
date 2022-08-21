@@ -20,14 +20,14 @@ const login = () => {
   }
 
   return (
-    <div className="flex flex-col w-full justify-center items-center my-auto h-screen space-y-5">
+    <div className="my-auto flex h-screen w-full flex-col items-center justify-center space-y-5">
       <div className="w-48">
         <Image src={SpotifyLogo} alt="" />
       </div>
       <div className="flex flex-row justify-center">
         <button
           disabled={isLoading}
-          className=" border-black p-2 bg-gray-300 rounded-md "
+          className="rounded-md border-black bg-gray-300 p-2 text-black "
           onClick={() => signIn("spotify")}
         >
           Login

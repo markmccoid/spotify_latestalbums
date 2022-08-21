@@ -3,14 +3,40 @@ import Head from "next/head";
 import { useSession, signOut } from "next-auth/react";
 import NavBar from "./NavBar";
 import PlaylistView from "../../components/playlistinfo/PlaylistsSidebarView";
-
+import { useAtom } from "jotai";
+import { appStateAtom } from "../../atoms/appStateAtom";
 import SelectedArtistsContainer from "../selectedArtists/SelectedArtistsContainer";
+import PlaylistResults from "../playlistinfo/PlaylistResults";
+import ArtistSearch from "../searchArtists/ArtistSearch";
+import FollowedArtists from "../followedArtists/FollowedArtists";
+import LatestAlbums from "../latestAlbums/LatestAlbums";
 
-const Wrapper = ({ children }) => {
+const Wrapper = () => {
   const { data: session, status } = useSession();
+  const [appState] = useAtom(appStateAtom);
+
   // console.log("session", session?.user.username, status);
   if (status === "unauthenticated") {
     console.log("UNAUTHED in HOME");
+  }
+  console.log("appstate in wrapper", appState.page);
+
+  let CurrPage = () => <div></div>;
+  if (appState.page === "playlist") {
+    CurrPage = () => (
+      <div className="flex w-full flex-grow flex-row overflow-y-hidden border">
+        <PlaylistResults />
+      </div>
+    );
+  }
+  if (appState.page === "followed") {
+    CurrPage = () => <FollowedArtists />;
+  }
+  if (appState.page === "search") {
+    CurrPage = () => <ArtistSearch />;
+  }
+  if (appState.page === "latest") {
+    CurrPage = () => <LatestAlbums />;
   }
 
   return (
@@ -33,7 +59,9 @@ const Wrapper = ({ children }) => {
         </div>
       </nav>
       {/* main content */}
-      <main className="flex flex-grow">{children}</main>
+      <main className="flex flex-grow">
+        <CurrPage />
+      </main>
     </div>
   );
 };

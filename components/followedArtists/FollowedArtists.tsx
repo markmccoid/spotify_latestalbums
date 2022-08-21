@@ -11,9 +11,8 @@ const FollowedArtists = () => {
     return spotifyApi.getFollowedArtists({ after: afterArtist });
   };
 
-  const { data, isLoading, isError } = useQuery(
-    ["followedArtists", afterArtist],
-    () => queryFollowedArtists(afterArtist)
+  const { data, isLoading, isError } = useQuery(["followedArtists", afterArtist], () =>
+    queryFollowedArtists(afterArtist)
   );
 
   if (isLoading) {
@@ -34,9 +33,7 @@ const FollowedArtists = () => {
     }
     setPreviousArtist(updatedPrevArtist);
 
-    setAfterArtist(
-      data?.body?.artists.items[data?.body?.artists.items.length - 1].id
-    );
+    setAfterArtist(data?.body?.artists.items[data?.body?.artists.items.length - 1].id);
     console.log(
       "last artist",
       data?.body?.artists.items[data?.body?.artists.items.length - 1].id
@@ -55,7 +52,7 @@ const FollowedArtists = () => {
       <h1 className="text-xl font-bold">Followed Artists</h1>
       {data?.body?.artists.items.map((artist) => {
         return (
-          <div className="mb-3 flex flex-col">
+          <div className="mb-3 flex flex-col" key={artist.id}>
             <ArtistItem key={artist.id} artistObj={artist} />
           </div>
           // <div key={artist.id}>

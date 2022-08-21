@@ -2,7 +2,6 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import { selectedArtistsAtom } from "../../atoms/selectedArtistsAtom";
 
-import Wrapper from "../../components/wrapper/Wrapper";
 import useArtistData from "../../hooks/useArtistData";
 
 const LatestAlbums = () => {
@@ -13,11 +12,10 @@ const LatestAlbums = () => {
   //   searchTypes: ["artist"],
   //   resultLimit: 10,
   // });
-  const { artistAlbumsData, isLoading, isError, refetch } =
-    useArtistData(selectedArtists);
+  const { artistAlbumsData, isLoading, isError, refetch } = useArtistData(selectedArtists);
   // console.log("artists", selectedArtists);
   return (
-    <Wrapper>
+    <div>
       {isLoading && <div>Loading...</div>}
       <div className="flex flex-grow overflow-hidden overflow-y-scroll">
         {artistAlbumsData?.map((data) => {
@@ -46,7 +44,7 @@ const LatestAlbums = () => {
           );
         })}
       </div>
-    </Wrapper>
+    </div>
   );
 };
 

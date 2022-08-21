@@ -6,7 +6,7 @@ import {
   SelectedPlaylistType,
   setSelectedPlaylistAtom,
 } from "../../atoms/selectedPlaylistAtom";
-import { Tooltip } from "../Tooltip";
+import { appStateAtom } from "../../atoms/appStateAtom";
 
 const PlaylistSidebarItem = ({
   playlist,
@@ -15,7 +15,7 @@ const PlaylistSidebarItem = ({
 }) => {
   // Get atom setter
   const [, setPlaylist] = useAtom(setSelectedPlaylistAtom);
-  // const [selectedPlaylistRes, setPlaylist2] = useAtom(selectedPlaylist);
+  const [, setAppState] = useAtom(appStateAtom);
 
   // construct obj for atom setter
   const playlistObj: SelectedPlaylistType = {
@@ -50,6 +50,7 @@ const PlaylistSidebarItem = ({
         onClick={() => {
           console.log("setting playlist", playlistObj.id);
           setPlaylist(playlistObj);
+          setAppState({ page: "playlist" });
         }}
       >
         <Link href={`/playlists`}>

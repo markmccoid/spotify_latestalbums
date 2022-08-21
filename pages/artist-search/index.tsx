@@ -1,1 +1,1 @@
-export { default } from "./ArtistSearch";
+export { default } from "../../components/searchArtists/ArtistSearch";

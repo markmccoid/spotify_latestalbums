@@ -1,20 +1,19 @@
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
+import PlaylistResults from "../components/playlistinfo/PlaylistResults";
 
 import Wrapper from "../components/wrapper/Wrapper";
+import ArtistSearch from "../components/searchArtists/ArtistSearch";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
+
   // console.log("session", session?.user.username, status);
   if (status === "unauthenticated") {
     console.log("UNAUTHED in HOME");
   }
 
-  return (
-    <Wrapper>
-      <div></div>
-    </Wrapper>
-  );
+  return <Wrapper />;
   // return (
   //   <div className="mx-20 flex h-full flex-col space-x-0 sm:flex-col md:flex-row md:space-x-2">
   //     <Head>

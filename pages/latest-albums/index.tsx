@@ -1,1 +1,1 @@
-export { default } from "./LatestAlbums";
+export { default } from "../../components/latestAlbums/LatestAlbums";
