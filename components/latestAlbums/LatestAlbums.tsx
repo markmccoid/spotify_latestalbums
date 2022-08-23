@@ -3,6 +3,7 @@ import { useState } from "react";
 import { selectedArtistsAtom } from "../../atoms/selectedArtistsAtom";
 
 import useArtistData from "../../hooks/useArtistData";
+import AlbumView from "./AlbumView";
 
 const LatestAlbums = () => {
   const [selectedArtists] = useAtom(selectedArtistsAtom);
@@ -15,31 +16,16 @@ const LatestAlbums = () => {
   const { artistAlbumsData, isLoading, isError, refetch } = useArtistData(selectedArtists);
   // console.log("artists", selectedArtists);
   return (
-    <div>
+    <div className="overflow-hidden overflow-y-scroll scrollbar-hide">
       {isLoading && <div>Loading...</div>}
-      <div className="flex flex-grow overflow-hidden overflow-y-scroll">
+      <div className="flex flex-grow">
         {artistAlbumsData?.map((data) => {
           return (
             <div>
               <h1 className="text-2xl">{data.artistName}</h1>
-              {data.artistMusic.map((el) => (
-                <div>
-                  <a href={el.spotifyAlbumURL} target="_blank">
-                    {el.release_date} -- {el.name} -- {el.albumType}
-                  </a>
-                  <ul>
-                    {el.artists?.map((artist) => {
-                      return (
-                        <li>
-                          <a href={artist.spotifyArtistURL} target="_blank">
-                            {artist.name}
-                          </a>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              ))}
+              {data.artistMusic.map((el) => {
+                return <AlbumView artistMusic={el} key={el.albumId} />;
+              })}
             </div>
           );
         })}
