@@ -12,19 +12,17 @@ type Artists = {
   spotifyArtistURL: string;
 };
 
-export type ArtistMusic =
-  | {
-      albumId: string;
-      albumType: "album" | "single" | "appears_on" | "compilation";
-      spotifyAlbumURL: string;
-      image: SpotifyApi.ImageObject;
-      name: string;
-      release_date: string;
-      total_tracks: number;
-      uri: string;
-      artists: Artists[];
-    }
-  | [];
+export type ArtistMusic = {
+  albumId: string;
+  albumType: "album" | "single" | "appears_on" | "compilation";
+  spotifyAlbumURL: string;
+  image: SpotifyApi.ImageObject;
+  name: string;
+  release_date: string;
+  total_tracks: number;
+  uri: string;
+  artists: Artists[];
+};
 type Artist = {
   artistId: string;
   artistName: string;
@@ -43,7 +41,8 @@ function getArtists(artistArr: SpotifyApi.ArtistObjectSimplified[]) {
 }
 
 const getAlbumsQuery =
-  (spotifyApi: SpotifyWebApi) => async (selectedArtists: SelectedArtistAtom[]) => {
+  (spotifyApi: SpotifyWebApi) =>
+  async (selectedArtists: SelectedArtistAtom[]) => {
     //-- Make list unique by artist ID
     // console.log("in getAlbumsQuery");
     let finalAlbumsList = [];
