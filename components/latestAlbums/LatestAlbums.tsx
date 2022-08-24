@@ -13,8 +13,7 @@ const LatestAlbums = () => {
   //   searchTypes: ["artist"],
   //   resultLimit: 10,
   // });
-  const { artistAlbumsData, isLoading, isError, refetch } =
-    useArtistData(selectedArtists);
+  const { artistAlbumsData, isLoading, isError, refetch } = useArtistData(selectedArtists);
   // console.log("artists", selectedArtists);
   return (
     <div className="overflow-hidden overflow-y-scroll scrollbar-hide">
@@ -22,7 +21,7 @@ const LatestAlbums = () => {
       <div className="flex flex-grow">
         {artistAlbumsData?.map((data) => {
           return (
-            <div className="space-x-2 space-y-2">
+            <div className="space-x-4 space-y-2">
               <h1 className="text-2xl">{data.artistName}</h1>
               {data.artistMusic.map((el) => {
                 return <AlbumView artistMusic={el} key={el.albumId} />;
