@@ -10,7 +10,7 @@ const NavBar = () => {
   const route = useRouter();
   const [appState, setAppState] = useAtom(appStateAtom);
 
-  console.log("page", appState?.page);
+  // console.log("page", appState?.page);
   return (
     <div className="flex flex-col space-y-5 border border-orange-500 p-4 py-6">
       <button onClick={() => setAppState({ page: "search" })} className="button">

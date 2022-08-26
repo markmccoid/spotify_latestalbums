@@ -9,13 +9,9 @@ export type SelectedPlaylistType =
   | undefined;
 
 export const selectedPlaylistAtom = atom<SelectedPlaylistType>(undefined);
-export const setSelectedPlaylistAtom = atom(
-  null,
-  (get, set, update: SelectedPlaylistType) => {
-    console.log("update", update, get(selectedPlaylistAtom));
-    set(selectedPlaylistAtom, update);
-  }
-);
+export const setSelectedPlaylistAtom = atom(null, (get, set, update: SelectedPlaylistType) => {
+  set(selectedPlaylistAtom, update);
+});
 export const clearSelectedPlaylistAtom = atom(null, (get, set) => {
   set(selectedPlaylistAtom, undefined);
 });

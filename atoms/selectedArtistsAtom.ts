@@ -14,7 +14,6 @@ type AddArtistResult = "Success" | "Duplicate" | undefined;
 export const addArtistToSelected = atom(
   (get) => get(selectedArtistsAtom),
   (get, set, newArtist: SelectedArtistAtom) => {
-    console.log("ARtist ID", newArtist);
     // `update` is any single value we receive for updating this atom
     const currArtists = get(selectedArtistsAtom);
     if (!currArtists.some((el) => el.id === newArtist.id)) {

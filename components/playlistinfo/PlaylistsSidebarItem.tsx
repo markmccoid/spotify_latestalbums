@@ -48,7 +48,6 @@ const PlaylistSidebarItem = ({
 
       <div
         onClick={() => {
-          console.log("setting playlist", playlistObj.id);
           setPlaylist(playlistObj);
           setAppState({ page: "playlist" });
         }}

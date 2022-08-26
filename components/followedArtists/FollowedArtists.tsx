@@ -34,10 +34,6 @@ const FollowedArtists = () => {
     setPreviousArtist(updatedPrevArtist);
 
     setAfterArtist(data?.body?.artists.items[data?.body?.artists.items.length - 1].id);
-    console.log(
-      "last artist",
-      data?.body?.artists.items[data?.body?.artists.items.length - 1].id
-    );
   };
   const setPreviousState = () => {
     const prevArray = previousArtist;

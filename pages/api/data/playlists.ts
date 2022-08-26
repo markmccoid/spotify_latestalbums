@@ -2,17 +2,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import spotifyApi from "../../../lib/spotify";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   // If actually using this, would need to check if accessToken expired
   // and redirect to login
   spotifyApi.setAccessToken(token.accessToken);
   const data = await spotifyApi.getUserPlaylists({ limit: 2 });
-  console.log(data?.body?.items);
   const playlistsArr = data?.body?.items.map((item) => {
     return {
       id: item.id,

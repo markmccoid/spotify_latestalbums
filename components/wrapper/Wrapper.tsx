@@ -19,7 +19,6 @@ const Wrapper = () => {
   if (status === "unauthenticated") {
     console.log("UNAUTHED in HOME");
   }
-  console.log("appstate in wrapper", appState.page);
 
   let CurrPage = () => <div></div>;
   if (appState.page === "playlist") {
