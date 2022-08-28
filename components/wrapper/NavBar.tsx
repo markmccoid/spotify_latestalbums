@@ -24,6 +24,10 @@ const NavBar = () => {
       <button onClick={() => setAppState({ page: "latest" })} className="button">
         Latest Albums
       </button>
+
+      <button onClick={() => setAppState({ page: "edit" })} className="button">
+        Edit Artist
+      </button>
       {/* <Link href="/artist-search">
         <a
           className={`${

@@ -30,6 +30,8 @@ type Artist = {
   artistMusic: ArtistMusic[];
 };
 
+type ArtistMap = Map<string, ArtistMusic[]>;
+
 function getArtists(artistArr: SpotifyApi.ArtistObjectSimplified[]) {
   return artistArr.map((artist) => {
     return {
@@ -41,11 +43,11 @@ function getArtists(artistArr: SpotifyApi.ArtistObjectSimplified[]) {
 }
 
 const getAlbumsQuery =
-  (spotifyApi: SpotifyWebApi) =>
-  async (selectedArtists: SelectedArtistAtom[]) => {
+  (spotifyApi: SpotifyWebApi) => async (selectedArtists: SelectedArtistAtom[]) => {
     //-- Make list unique by artist ID
     // console.log("in getAlbumsQuery");
     let finalAlbumsList = [];
+    const finalMapList: ArtistMap = new Map();
     let counter = 1;
     //-- Get full artist record for each artist in unique list
     for (const artist of selectedArtists) {
@@ -103,10 +105,12 @@ const getAlbumsQuery =
       //
       // console.log("DATA", queryArtist);
       finalAlbumsList.push(queryArtist);
+      finalMapList.set(artist.name, artistMusic);
       // stateUpdater(counter.toString());
       counter++;
     }
 
+    return finalMapList;
     return finalAlbumsList;
   };
 

@@ -5,10 +5,12 @@ import ArtistItem from "../shared/ArtistItem";
 
 const FollowedArtists = () => {
   const [afterArtist, setAfterArtist] = useState<string | undefined>(undefined);
+  // Used to stored an array of "prev" artist ids.  It actually is just each "afterArtist"
+  // state as user click through screen of artists
   const [previousArtist, setPreviousArtist] = useState<string[]>([]);
   const spotifyApi = useSpotify();
   const queryFollowedArtists = (afterArtist: string | undefined) => {
-    return spotifyApi.getFollowedArtists({ after: afterArtist });
+    return spotifyApi.getFollowedArtists({ after: afterArtist, limit: 50 });
   };
 
   const { data, isLoading, isError } = useQuery(["followedArtists", afterArtist], () =>
@@ -23,8 +25,8 @@ const FollowedArtists = () => {
       </div>
     );
   }
-  data?.body.artists;
-  // console.log("Prev/Next", previousArtist, afterArtist);
+  // data?.body.artists;
+  console.log("Prev/Next", previousArtist, afterArtist);
   //-- NEXT and PREV State Setters ------//
   const setNextState = () => {
     let updatedPrevArtist: string[] = [];
@@ -35,6 +37,7 @@ const FollowedArtists = () => {
 
     setAfterArtist(data?.body?.artists.items[data?.body?.artists.items.length - 1].id);
   };
+  //-- PREV State Setting
   const setPreviousState = () => {
     const prevArray = previousArtist;
     setAfterArtist(prevArray.pop());
@@ -44,26 +47,28 @@ const FollowedArtists = () => {
   // If Next is populated then there are more followed artists to get
   const isMoreArtists = !!data?.body?.artists.next;
   return (
-    <div className="flex flex-col overflow-hidden overflow-y-scroll scrollbar-hide">
+    <div className="overflow-hidden overflow-y-scroll scrollbar-hide">
       <h1 className="text-xl font-bold">Followed Artists</h1>
-      {data?.body?.artists.items.map((artist) => {
-        return (
-          <div className="mb-3 flex flex-col" key={artist.id}>
-            <ArtistItem key={artist.id} artistObj={artist} />
-          </div>
-          // <div key={artist.id}>
-          //   {artist.name} - {artist.id}
-          // </div>
-        );
-      })}
-      <div className="flex flex-row justify-center space-x-2 ">
-        {!!previousArtist && (
-          <button className="button p-2 text-2xl" onClick={setPreviousState}>
+      <div className="flex flex-row flex-wrap">
+        {data?.body?.artists.items.map((artist) => {
+          return (
+            <div className="mb-3 flex flex-col" key={artist.id}>
+              <ArtistItem key={artist.id} artistObj={artist} />
+            </div>
+            // <div key={artist.id}>
+            //   {artist.name} - {artist.id}
+            // </div>
+          );
+        })}
+      </div>
+      <div className="flex  flex-row space-x-2">
+        {!!afterArtist && (
+          <button className="button flex-grow p-2 text-2xl" onClick={setPreviousState}>
             Prev
           </button>
         )}
         {isMoreArtists && (
-          <button className="button p-2 px-4 text-2xl" onClick={setNextState}>
+          <button className="button flex-grow p-2 px-4 text-2xl" onClick={setNextState}>
             Next
           </button>
         )}

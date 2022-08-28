@@ -36,6 +36,13 @@ export const removeArtistFromSelected = atom(
   }
 );
 
+export const clearSelectedArtists = atom(
+  (get) => get(selectedArtistsAtom),
+  (get, set) => {
+    set(selectedArtistsAtom, []);
+  }
+);
+
 if (process.env.NODE_ENV !== "production") {
   selectedArtistsAtom.debugLabel = "selectedArtistsAtom";
   addArtistToSelected.debugLabel = "addArtistToSelected";

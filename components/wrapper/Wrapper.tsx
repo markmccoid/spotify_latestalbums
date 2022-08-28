@@ -10,6 +10,7 @@ import PlaylistResults from "../playlistinfo/PlaylistResults";
 import ArtistSearch from "../searchArtists/ArtistSearch";
 import FollowedArtists from "../followedArtists/FollowedArtists";
 import LatestAlbums from "../latestAlbums/LatestAlbums";
+import EditArtists from "../editArtists/EditArtists";
 
 const Wrapper = () => {
   const { data: session, status } = useSession();
@@ -36,6 +37,9 @@ const Wrapper = () => {
   }
   if (appState.page === "latest") {
     CurrPage = () => <LatestAlbums />;
+  }
+  if (appState.page === "edit") {
+    CurrPage = () => <EditArtists />;
   }
 
   return (
