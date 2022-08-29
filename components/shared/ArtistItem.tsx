@@ -46,14 +46,14 @@ const ArtistItem = ({ artistObj }: Props) => {
       ${isSelected && "border-2 border-orange-500 bg-highlight_bg transition duration-700"}
       ${!isSelected && "border-2 border-highlight_bg bg-mm_light transition duration-700"}`}
     >
-      <div
-        className="group relative h-[100px] w-[100px] flex-shrink-0 cursor-pointer
+      <a href={artistObj.external_urls.spotify} target="_blank">
+        <div
+          className="group relative h-[100px] w-[100px] flex-shrink-0 cursor-pointer
         overflow-hidden rounded-xl border border-black"
-      >
-        <a href={artistObj.external_urls.spotify} target="_blank">
+        >
           <Image src={image} layout="fill" objectFit="cover" />
-        </a>
-      </div>
+        </div>
+      </a>
 
       <div className="flex h-full w-full flex-col justify-between py-2">
         <div

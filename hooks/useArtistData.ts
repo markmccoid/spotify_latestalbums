@@ -1,10 +1,8 @@
 import { useSpotify } from "./useSpotify";
 import { useQuery } from "@tanstack/react-query";
-import { uniqBy } from "lodash";
 import { useCallback } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 import { SelectedArtistAtom } from "../atoms/selectedArtistsAtom";
-import GetFollowedArtists from "../components/center/GetFollowedArtists";
 
 type Artists = {
   id: string;
