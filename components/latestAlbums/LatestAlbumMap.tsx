@@ -1,24 +1,27 @@
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { RefObject, useRef, useState } from "react";
-import {
-  selectedArtistsAtom,
-  SelectedArtistAtom,
-} from "../../atoms/selectedArtistsAtom";
+import { selectedArtistsAtom } from "../../atoms/selectedArtistsAtom";
 
-import useSingleArtistAlbums from "../../hooks/useSingleArtistAlbums";
+import useArtistData from "../../hooks/useArtistData";
 import AlbumView from "./AlbumView";
 
 const LatestAlbums = () => {
   const [selectedArtists] = useAtom(selectedArtistsAtom);
-  const [expandedArtist, setExpandedArtist] = useState<string | undefined>(
-    undefined
+  const [expandedArtist, setExpandedArtist] = useState<Record<string, boolean>>(
+    {}
   );
   const [mapArtist, setMapArtist] = useState("");
   const topRef = useRef<HTMLDivElement>();
+  const toggleArtist = (artistName: string) => {
+    setExpandedArtist({
+      ...expandedArtist,
+      [artistName]: !expandedArtist[artistName],
+    });
+  };
 
-  const { artistAlbumsData, isLoading, fetchStatus, isError, refetch } =
-    useSingleArtistAlbums(expandedArtist);
+  const { artistAlbumsData, isLoading, isError, refetch } =
+    useArtistData(selectedArtists);
 
   // Scroll to top function
   const scrollToTop = () => {
@@ -32,21 +35,25 @@ const LatestAlbums = () => {
   }, [mapArtist]);
 
   const getHeaders = () => {
-    return selectedArtists.map((artist) => (
-      <h1
-        key={artist.name}
-        className={`button mr-2 mb-2 cursor-pointer text-2xl ${
-          mapArtist === artist.name && "border-2 border-orange-500"
-        }`}
-        onClick={() => {
-          if (expandedArtist !== artist.id) {
-            setExpandedArtist(artist.id);
-          }
-        }}
-      >
-        {artist.name}
-      </h1>
-    ));
+    let headers = [];
+    for (const artistName of artistAlbumsData?.keys() || []) {
+      headers.push(
+        <h1
+          key={artistName}
+          className={`button mr-2 mb-2 cursor-pointer text-2xl ${
+            mapArtist === artistName && "border-2 border-orange-500"
+          }`}
+          onClick={() => {
+            if (mapArtist !== artistName) {
+              setMapArtist(artistName.toString());
+            }
+          }}
+        >
+          {artistName}
+        </h1>
+      );
+    }
+    return headers;
   };
 
   const artistsAlbums = () => {
@@ -55,6 +62,7 @@ const LatestAlbums = () => {
 
   return (
     <div className="flex flex-grow flex-col overflow-hidden pt-4 pl-4 ">
+      {isLoading && <div>Loading...</div>}
       {/* <div ref={topRef} /> */}
       <div className="flex flex-row flex-wrap justify-start">
         {getHeaders()}
@@ -63,11 +71,10 @@ const LatestAlbums = () => {
         ref={topRef}
         className="flow-row flex flex-wrap overflow-hidden overflow-y-scroll scrollbar-hide"
       >
-        {artistAlbumsData?.map((el) => {
+        {artistsAlbums().map((el) => {
           return <AlbumView artistMusic={el} key={el.albumId} />;
         })}
       </div>
-      {isLoading && fetchStatus !== "idle" && <div>Loading...</div>}
       <button
         className="absolute bottom-0 right-10 rounded-lg border border-white bg-slate-500 py-2 px-1 hover:scale-105 hover:bg-black"
         onClick={scrollToTop}
