@@ -1,4 +1,3 @@
-import * as React from "react";
 import Head from "next/head";
 import { useSession, signOut } from "next-auth/react";
 import NavBar from "./NavBar";
@@ -12,6 +11,18 @@ import FollowedArtists from "../followedArtists/FollowedArtists";
 import LatestAlbums from "../latestAlbums/LatestAlbums";
 import EditArtists from "../editArtists/EditArtists";
 
+const AppStates: Record<string, () => JSX.Element> = {
+  followed: FollowedArtists,
+  search: ArtistSearch,
+  latest: LatestAlbums,
+  edit: EditArtists,
+  playlist: () => (
+    <div className="flex w-full flex-grow flex-row overflow-y-hidden border">
+      <PlaylistResults />
+    </div>
+  ),
+};
+
 const Wrapper = () => {
   const { data: session, status } = useSession();
   const [appState] = useAtom(appStateAtom);
@@ -22,25 +33,27 @@ const Wrapper = () => {
   }
 
   let CurrPage = () => <div></div>;
-  if (appState.page === "playlist") {
-    CurrPage = () => (
-      <div className="flex w-full flex-grow flex-row overflow-y-hidden border">
-        <PlaylistResults />
-      </div>
-    );
-  }
-  if (appState.page === "followed") {
-    CurrPage = () => <FollowedArtists />;
-  }
-  if (appState.page === "search") {
-    CurrPage = () => <ArtistSearch />;
-  }
-  if (appState.page === "latest") {
-    CurrPage = () => <LatestAlbums />;
-  }
-  if (appState.page === "edit") {
-    CurrPage = () => <EditArtists />;
-  }
+  // if (appState.page === "playlist") {
+  //   CurrPage = () => (
+  //     <div className="flex w-full flex-grow flex-row overflow-y-hidden border">
+  //       <PlaylistResults />
+  //     </div>
+  //   );
+  // }
+  // if (appState.page === "followed") {
+  //   CurrPage = () => <FollowedArtists />;
+  // }
+  // if (appState.page === "search") {
+  //   CurrPage = () => <ArtistSearch />;
+  // }
+  // if (appState.page === "latest") {
+  //   CurrPage = () => <LatestAlbums />;
+  // }
+  // if (appState.page === "edit") {
+  //   CurrPage = () => <EditArtists />;
+  // }
+
+  const CurrentAppState = AppStates[appState.page] ?? CurrPage;
 
   return (
     <div className="mx-5 flex h-full flex-row space-x-0 sm:flex-col md:flex-row md:space-x-2">
@@ -63,7 +76,7 @@ const Wrapper = () => {
       </nav>
       {/* main content */}
       <main className="flex flex-grow">
-        <CurrPage />
+        {appState.page ? <CurrentAppState /> : <div></div>}
       </main>
     </div>
   );

@@ -89,7 +89,11 @@ const useSingleArtistAlbums = (selectedArtistId: string | undefined) => {
   const { data, isLoading, isError, fetchStatus, refetch } = useQuery(
     ["artistAlbums", selectedArtistId],
     () => getAlbums(selectedArtistId),
-    { enabled: !!selectedArtistId }
+    {
+      enabled: !!selectedArtistId,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    }
   );
 
   const artistAlbumsData = data;

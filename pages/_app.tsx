@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useAtomsDebugValue } from "jotai/devtools";
+import { useEffect } from "react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,7 +22,6 @@ const DebugAtoms = () => {
   useAtomsDebugValue();
   return null;
 };
-
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>

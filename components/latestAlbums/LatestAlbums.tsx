@@ -1,10 +1,7 @@
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { RefObject, useRef, useState } from "react";
-import {
-  selectedArtistsAtom,
-  SelectedArtistAtom,
-} from "../../atoms/selectedArtistsAtom";
+import { selectedArtistsAtom } from "../../atoms/selectedArtistsAtom";
 
 import useSingleArtistAlbums from "../../hooks/useSingleArtistAlbums";
 import AlbumView from "./AlbumView";
@@ -14,7 +11,6 @@ const LatestAlbums = () => {
   const [expandedArtist, setExpandedArtist] = useState<string | undefined>(
     undefined
   );
-  const [mapArtist, setMapArtist] = useState("");
   const topRef = useRef<HTMLDivElement>();
 
   const { artistAlbumsData, isLoading, fetchStatus, isError, refetch } =
@@ -29,14 +25,14 @@ const LatestAlbums = () => {
 
   useEffect(() => {
     scrollToTop();
-  }, [mapArtist]);
+  }, [expandedArtist]);
 
   const getHeaders = () => {
     return selectedArtists.map((artist) => (
       <h1
-        key={artist.name}
+        key={artist.id}
         className={`button mr-2 mb-2 cursor-pointer text-2xl ${
-          mapArtist === artist.name && "border-2 border-orange-500"
+          expandedArtist === artist.id && "border-2 border-orange-500"
         }`}
         onClick={() => {
           if (expandedArtist !== artist.id) {
@@ -47,10 +43,6 @@ const LatestAlbums = () => {
         {artist.name}
       </h1>
     ));
-  };
-
-  const artistsAlbums = () => {
-    return artistAlbumsData?.get(mapArtist) || [];
   };
 
   return (
